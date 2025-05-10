@@ -2,11 +2,17 @@ using UnityEngine;
 
 public class MouseWorld : MonoBehaviour
 {
+    
+
+    //----SerializeField
     [SerializeField]private LayerMask MenuPlane; // The layer for interacting
+
+    //----Variable
     private static MouseWorld instance;
 
      private void Awake()
     {
+       
         instance = this;
     }
 
@@ -29,6 +35,9 @@ public class MouseWorld : MonoBehaviour
 
     private void MouseInteract(){
         //Interacting with physical object
+        if(TurnSys.Instance.IsBetweenRound()) return; //disable interaction when is in between round
+        if(!TurnSys.Instance.IsPlayerTurn()) return; //disable interaction when is enemy turn
+
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         //Check if hit the paper
         bool isHitMenuLayerMask = Physics.Raycast(ray, out RaycastHit raycastHit,float.MaxValue,MenuPlane); 

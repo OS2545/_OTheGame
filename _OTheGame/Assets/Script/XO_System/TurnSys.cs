@@ -7,10 +7,17 @@ public class TurnSys : MonoBehaviour
 
     //----------Event Handlers --------------------------------
     public event EventHandler OnTurnChanged; 
+    public event EventHandler OnRoundFinish;
+    public event EventHandler OnRoundStarted;
+
+    //----------SerialField--------------------------------
+    [SerializeField]private GameObject Gold;
 
     //-------------Variables--------------------------------
     private int roundNumber;
+    private int maxRound=3;
     private bool isPlayerTurn;
+    private bool isBetweenRound;
 
      //----------Awake / Start / Update-----------------------
     private void Awake(){
@@ -21,8 +28,18 @@ public class TurnSys : MonoBehaviour
         }
          Instance = this;
          isPlayerTurn = true;
+         roundNumber=0;
+         isBetweenRound = false;
     }
 
+    private void Start()
+    {
+        XOSys.Instance.OnFinishRound += XOSys_OnFinishRound;
+        UISys.Instance.OnUINextRound += UISys_OnUINextRound;
+        
+    }
+
+   
     //--------------------------------
     public void NextTurn(){
         isPlayerTurn = !isPlayerTurn;
@@ -31,6 +48,47 @@ public class TurnSys : MonoBehaviour
 
     public bool IsPlayerTurn(){
         return isPlayerTurn;
+    }
+
+    public int GetRound(){
+        return roundNumber;
+    }
+
+
+    public bool IsBetweenRound(){
+        return isBetweenRound;
+    }
+
+    public int GetMaxRound(){
+        return maxRound;
+    }
+
+    //-------------Subscribe
+    private void UISys_OnUINextRound(object sender, EventArgs e){
+        if(isPlayerTurn && roundNumber<maxRound){
+            //On To Next Round
+            OnRoundStarted?.Invoke(this,EventArgs.Empty);
+            isBetweenRound = false;
+            return;
+        }
+
+        else if(!isPlayerTurn){
+            //Fail the game
+            //Check UI Sys
+            return;
+        }
+
+        else {
+            //Win the game
+            Gold.gameObject.SetActive(true);
+        }
+    }
+    private void XOSys_OnFinishRound(object sender, EventArgs e){
+        roundNumber++;
+        OnRoundFinish?.Invoke(this,EventArgs.Empty);
+        //UICanvas.gameObject.SetActive(true);
+        isBetweenRound = true;
+        //UIisActivate = true;
     }
 
 }

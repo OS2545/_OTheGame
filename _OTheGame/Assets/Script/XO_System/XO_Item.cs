@@ -4,14 +4,28 @@ using UnityEngine;
 
 public class XO_Item : MonoBehaviour
 {
+    //----------SerializeField---------------------
    [SerializeField] private Vector2 XO_Position;
+
+   //------------Variables---------------------------
    private bool isPlayerXO;
+   private bool isOccupied;
+   private bool isSpecialTile;
+   private Special_Tile specialTile;
+   
+   //-------------Awake/Start/Update----------------------
+   private void Start()
+   {
+    isOccupied = false;
+   }
 
 
     public void isPressed(){
-        if(XOSys.Instance.CanAddXO(this)){
-            isPlayerXO = TurnSys.Instance.IsPlayerTurn();
-            TurnSys.Instance.NextTurn(); //Next turn
+        if(isOccupied) return; //if is taken return;
+        isPlayerXO = TurnSys.Instance.IsPlayerTurn();
+        if(XOSys.Instance.TryXO(this)){
+            //Have been add into the active list
+            isOccupied=true;
             return;
         }
    }
@@ -22,5 +36,30 @@ public class XO_Item : MonoBehaviour
    public bool IsPlayerXO(){
     return isPlayerXO;
    }
-   
+
+   public void SetSpecialTile(bool _specialTile, Special_Tile _special_Tile){
+        isSpecialTile = _specialTile;
+        specialTile = _special_Tile;
+   }
+
+   public Special_Tile GetSpecialTile(){
+    return specialTile;
+   }
+
+   public bool IsSpecialTile(){
+        return isSpecialTile;
+   }
+
+    public void Reset()
+    {
+        isOccupied=false;
+        isPlayerXO = new bool();
+        isSpecialTile = false;
+        specialTile = null;
+    }
+
+    public void SetIsPlayer(bool _isPlayer){
+        isPlayerXO = _isPlayer;
+    }
+
 }
