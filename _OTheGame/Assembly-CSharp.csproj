@@ -65,14 +65,20 @@
     <Analyzer Include="C:\Program Files\UnityEditor\Unity 6000.0.32\Editor\Data\Tools\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Script\UISys.cs" />
     <Compile Include="Assets\Script\XO_System\TurnSys.cs" />
-    <Compile Include="Assets\Script\Paper\PolicyPaper_Item.cs" />
-    <Compile Include="Assets\Script\Paper\XOPaper.cs" />
+    <Compile Include="Assets\Script\Object\Gold.cs" />
     <Compile Include="Assets\Script\MouseWorld.cs" />
+    <Compile Include="Assets\Script\XO_System\Special_Tile.cs" />
     <Compile Include="Assets\Script\XO_System\XO_Item.cs" />
     <Compile Include="Assets\Script\XO_System\XOSys.cs" />
     <Compile Include="Assets\TutorialInfo\Scripts\Readme.cs" />
-    <Compile Include="Assets\Script\Paper\PolicyPaper.cs" />
+    <Compile Include="Assets\Script\AI\Basic_Enemy_AI.cs" />
+    <Compile Include="Assets\Script\SoundVFXManager.cs" />
+    <Compile Include="Assets\Script\AI\AI_Margin.cs" />
+    <Compile Include="Assets\Script\Object\PolicyPaper.cs" />
+    <Compile Include="Assets\Script\Object\PolicyPaper_Item.cs" />
+    <Compile Include="Assets\Script\Object\XOPaper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

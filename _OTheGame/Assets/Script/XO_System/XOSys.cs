@@ -41,6 +41,7 @@ public class XOSys : MonoBehaviour
     {
         TurnSys.Instance.OnRoundStarted += TurnSys_OnRoundStarted;
         Pre_AddXO_Item_InList(transform, "XO_Item", XO_Items_List);
+        AssignSpecialTile();
        
     }
 
@@ -74,7 +75,7 @@ public class XOSys : MonoBehaviour
     private void AssignSpecialTile(){
         int round = TurnSys.Instance.GetRound();
 
-        for(int i=0;i<round;i++){
+        for(int i=0;i<round+1;i++){
            
             //-------Random index + special Tile--------------------
         
@@ -121,7 +122,7 @@ public class XOSys : MonoBehaviour
             }
         }
 
-        TurnSys.Instance.NextTurn(); //Next turn
+        TurnSys.Instance.NextTurn(false); //Next turn
 
          if(XO_Activate_List.Count>=9){
             //Draw = game over
@@ -149,19 +150,21 @@ public class XOSys : MonoBehaviour
 
             if(special_Tile.GetSpecialTileType()=="Part"){
                 //In case special tile is body part = GAME OVER
+                special_Tile.playAudioClip();
                 xo.GetComponent<Renderer>().material = checkboxMaterial_list[1]; //Cross Visual for player
-                TurnSys.Instance.NextTurn(); //Force Enemy win
+                TurnSys.Instance.NextTurn(true); //Force Enemy win
                 OnFinishRound?.Invoke(this,EventArgs.Empty);
                 return false;
             }
 
             if(special_Tile.GetSpecialTileType()=="Family"){
                 //if family remaining = 0 = GameOver
+                special_Tile.playAudioClip();
                 familyRemaining--;
                 OnFamilyChanged?.Invoke(this,EventArgs.Empty);
                 if(familyRemaining<=0){
                     xo.GetComponent<Renderer>().material = checkboxMaterial_list[1]; //Cross Visual for player
-                    TurnSys.Instance.NextTurn(); //Force Enemy win
+                    TurnSys.Instance.NextTurn(true); //Force Enemy win
                     OnFinishRound?.Invoke(this,EventArgs.Empty);
                     return false;
                 }

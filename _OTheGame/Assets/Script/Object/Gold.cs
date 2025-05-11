@@ -25,7 +25,7 @@ public class Gold : MonoBehaviour
 
     private void Update()
     {
-
+        //handler gold's animation
         if(isAnimationPlayed){
             Vector3 dir = new Vector3(0,0,-0.1f);
             float moveSpeed = 3.5f;

@@ -6,6 +6,7 @@ public class MouseWorld : MonoBehaviour
 
     //----SerializeField
     [SerializeField]private LayerMask MenuPlane; // The layer for interacting
+    [SerializeField]private AudioClip clickingAudio;
 
     //----Variable
     private static MouseWorld instance;
@@ -44,9 +45,11 @@ public class MouseWorld : MonoBehaviour
         if(isHitMenuLayerMask) {
             if(raycastHit.transform.TryGetComponent<PolicyPaper_Item>(out PolicyPaper_Item policyPaper_item)){
                 policyPaper_item.Activate();
+                SoundVFXManager.Instance.PlaySoundFileClip(clickingAudio,transform,1f);
             }
             if(raycastHit.transform.TryGetComponent<XO_Item>(out XO_Item xO_Item)){
                 xO_Item.isPressed();
+                SoundVFXManager.Instance.PlaySoundFileClip(clickingAudio,transform,1f);
             }    
         }
     }

@@ -18,6 +18,7 @@ public class TurnSys : MonoBehaviour
     private int maxRound=3;
     private bool isPlayerTurn;
     private bool isBetweenRound;
+    private bool isGameEnd;
 
      //----------Awake / Start / Update-----------------------
     private void Awake(){
@@ -30,10 +31,12 @@ public class TurnSys : MonoBehaviour
          isPlayerTurn = true;
          roundNumber=0;
          isBetweenRound = false;
+         isGameEnd = false;
     }
 
     private void Start()
     {
+        //Subscribe
         XOSys.Instance.OnFinishRound += XOSys_OnFinishRound;
         UISys.Instance.OnUINextRound += UISys_OnUINextRound;
         
@@ -41,7 +44,9 @@ public class TurnSys : MonoBehaviour
 
    
     //--------------------------------
-    public void NextTurn(){
+    public void NextTurn(bool isEnd){
+        //Move on to next turn
+        if(isEnd) isGameEnd = true; //Game end no next round
         isPlayerTurn = !isPlayerTurn;
         OnTurnChanged?.Invoke(this,EventArgs.Empty);
     }
@@ -61,6 +66,10 @@ public class TurnSys : MonoBehaviour
 
     public int GetMaxRound(){
         return maxRound;
+    }
+
+    public bool IsGameEnd(){
+        return isGameEnd;
     }
 
     //-------------Subscribe
